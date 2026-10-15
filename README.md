@@ -1,41 +1,41 @@
-# 📄 Smart Resume Analyzer (Data Science & Data Analyst Edition)
+# MatchWise - AI Resume Analyser
 
-## 🚀 Overview  
-Smart Resume Analyzer ek **AI-powered ATS tool** hai jo resume ko analyze karta hai aur check karta hai ki **resume job description se kitna match hota hai**.  
-Ye tool specifically **Data Science** aur **Data Analyst** roles ke liye banaya gaya hai.  
-Isme Gemini AI ka use hota hai **resume improvements aur missing keywords** suggest karne ke liye.  
+A Streamlit tool that scores a resume against a job description using Google Gemini, then
+reports what is missing.
 
----
+## What it does
 
-## ✨ Features  
+- **Match score** between the resume and the job description
+- **Missing keywords** - skills the JD asks for that the resume never mentions
+- **Profile summary** written from the resume
+- **Improvement suggestions**, returned as structured JSON so the UI can render them reliably
 
-- ✅ **JD Match Score** – Resume aur Job Description ke beech match percentage  
-- 🗝 **Missing Keywords Detection** – Identify karo kaunse important skills/keywords missing hai  
-- 📝 **Profile Summary Generator** – AI-based summary jo recruiter-friendly hai  
-- 💪 **Resume Strength Meter** (emoji-based):
-  - 💪 Excellent Fit (>85%)  
-  - 👍 Good Fit (70–85%)  
-  - 🤔 Average Fit (50–70%)  
-  - ❌ Poor Fit (<50%)  
-- 💡 **Smart Suggestions Panel** – Gemini AI se 3–4 bullet-point suggestions to improve resume  
+## Why structured output matters
 
----
+Asking a language model for free-form advice gives you something different every run. This asks
+Gemini for JSON with a fixed shape and parses it, with error handling for the cases where the
+model wraps its reply in markdown fences. That is the difference between a demo and something
+you can put a UI on top of.
 
-## 🛠 Tech Stack  
+## Stack
 
-- **Frontend/UI:** Streamlit  
-- **Backend:** Python  
-- **AI Model:** Google Gemini (Generative AI)  
-- **Libraries:**  
-  - `pandas`, `nltk`, `scikit-learn`  
-  - `python-dotenv` (API key management)  
-  - `json`, `re` (parsing & cleaning Gemini output)  
+| | |
+|---|---|
+| UI | Streamlit |
+| Model | Google Gemini via `google-genai` |
+| Config | `python-dotenv` |
 
----
+## Running it
 
-## ⚙️ Installation & Usage  
-
-1. Clone repo:  
 ```bash
-git clone https://github.com/your-username/Smart-Resume-Analyzer.git
-cd Smart-Resume-Analyzer
+pip install -r requirements.txt
+cp .env.example .env     # then paste your own key into .env
+streamlit run ats_gemini.py
+```
+
+Get a free API key at https://aistudio.google.com/apikey
+
+## A note on secrets
+
+This repository ships `.env.example` only. Real keys stay in `.env`, which `.gitignore`
+excludes. If you fork it, never commit your own `.env`.
